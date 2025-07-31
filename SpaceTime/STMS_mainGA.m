@@ -1,7 +1,7 @@
 
 %% Constant
 clc;
-clear;
+clear all;
 addpath('../function')
 
 %% Initial Parameter
