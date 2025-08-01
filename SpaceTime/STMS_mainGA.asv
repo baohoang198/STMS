@@ -103,7 +103,7 @@ while (n ~=0)
     n = n+1;
 
     %% Covergence
-    if cost(1) <= 5
+    if cost(1) <= 10
         break,
     end
     if n == 1000

@@ -1,5 +1,6 @@
 clc,
-clear,
+clear all,
+close all,
 
 
 %% Coordinate initial
@@ -11,21 +12,21 @@ theta = linspace(-pi/2,pi/2,num_point);
 [Theta, Phi] = meshgrid(theta,phi);
 
 %% Basic properties
-d = 0.328*2;
+d = 8.2/25;
 %% Fourier Coeficients
-leng_time = 5;
-num_elements_x = 10;
-num_elements_y =10;
+leng_time = 8;
+num_elements_x = 20;
+num_elements_y =20;
 num_elements = num_elements_y.* num_elements_x;
 % ST_matrix = [0	3	2	2	3	3	1	0	3	2	2  	0	3	2	2	2	3	2	1	3	0	1	3	3	1	1	0	3	3	0	3	1	2	1	3	2	1	0	2	3	0	1	0	0	3	3	0	0	3	3	3	3	0	0	0	3	2	0	0	1	2	3	1	3	3	0	3	2	0	1	0	2	2	0	3	3	3	3	1	3
 % ];
-ST_matrix = [3	0	1	2	1	3	1	2	3	1	3	0	0	1	2	2	3	3	1	0	0	0	3	3	0	2	2	3	3	1	0	3	0	0	1	0	3	2	3	0	1	1	2	0	0	1	0	3	3	0 ];
-
+ST_matrix = [2	1	1	1	2	3	3	2	3	0	2	0	0	2	1	2	0	1	3	1	2	3	0	0	0	3	3	0	1	2	1	2	1	2	2	0	0	1	3	0	0	1	3	0	1	0	3	3	3	2	3	0	0	3	3	3	2	3	0	0	3	3	2	0	1	1	0	0	0	2	3	1	0	2	3	3	0	3	3	0	3	2	3	3	0	1	1	2	0	3	3	0	1	3	2	3	1	3	0	1	0	1	1	2	3	0	3	0	3	0	2	2	1	1	2	3	0	2	3	3	3	0	3	3	3	3	2	2	2	2	3	2	0	2	2	3	0	0	2	3	1	0	0	0	3	0	0	0	1	3	1	1	0	1	3	2	0	2	2	0];
 % ST_matrix = [2     3     1     2     2     0     0     1];
 % ST_matrix = randi([0 1],8,1);
 ST_matrix = reshape(ST_matrix,num_elements_y,leng_time);
-% ST_matrix = ST_matrix(:,1);
-full_ST_matrix = (repmat(ST_matrix,1,1,num_elements_x));
+full_ST_matrix = repmat(ST_matrix,1,1,num_elements_x);
+% full_ST_matrix = repelem(full_ST_matrix,2,1,1);
+
 x = 1:8;
 y = 1:8;
 z = 1:8;
@@ -37,7 +38,7 @@ z = 1:8;
 % ax.XDir = 'reverse' ;
 
 T0 = 1;
-harmonic_level = -2:2;
+harmonic_level = -1:1;
 E = ones(361,361,4);
 % for n = 1:4
 %     E(:,:,n) = abs(Efield_cal(['patch_cell2_',num2str(n-1),'.ffd']));
