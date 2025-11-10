@@ -1,11 +1,8 @@
-function Cost = Cost_function(num_elements_x,num_elements_y,ST_matrix,theta_desired)
-leng_time = 8;
+function Cost = Cost_function(num_elements_x,num_elements_y,ST_matrix,theta_desired,leng_time,harmonic_level)
 ST_matrix = reshape(ST_matrix,num_elements_y,leng_time);
 full_ST_matrix = repmat(ST_matrix,1,1,num_elements_x);
-% full_ST_matrix = repelem(full_ST_matrix,2,1,1);
-num_elements_y = num_elements_y;
-num_elements_x = num_elements_x;
-harmonic_level = -2:2;
+d = 8.2/25;
+full_ST_matrix = repelem(full_ST_matrix,2,1,1);
 SLL_desired = 0.5;
 %% Coordinate initial
 
@@ -15,7 +12,7 @@ dphi = pi/num_point;
 phi = 0;
 theta = -pi/2:dtheta:pi/2;
 [Theta, Phi] = meshgrid(theta,phi);
-d = 8/30;
+
 Cost = 0;
 % Weight
 weightTD_funda = 10;
