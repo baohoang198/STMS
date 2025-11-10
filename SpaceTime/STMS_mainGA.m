@@ -2,24 +2,24 @@
 %% Constant
 clc;
 clear all;
+close all;
 addpath('../function')
 
 %% Initial Parameter
 Nbit = 2;
 Nstate = 2.^Nbit;
 
-num_elemets_x = 16;
-num_elemets_y = 16;
+num_elemets_x = 20;
+num_elemets_y = 20;
 leng_time = 8;
 N = num_elemets_y*leng_time;
-theta_desired = [ -50 -30 0 30 50];
+theta_desired = [-20 0 10];
+harmonic_level = -1:1;
+
 Num_indiv = 20;
 Num_generation = 10; 
 tic();
 
-
-fileID = fopen('log.csv','w');
-fprintf(fileID,'F , cost , gen \n');
 LOG_NUM_GENERATION = [];
 LOG_COST = [];
 LOG_PATTERN = [];
@@ -39,7 +39,7 @@ cost = zeros(Num_indiv,1);
 while (n ~=0)
     for Q = 1:Num_indiv
         tmp_minQ0=0;
-        Costx=Cost_function(num_elemets_x,num_elemets_y,Population(Q,:),theta_desired);
+        Costx=Cost_function(num_elemets_x,num_elemets_y,Population(Q,:),theta_desired,leng_time,harmonic_level);
         cost(Q) = Costx;
     end
     %% Selection: Sorting
@@ -56,7 +56,7 @@ while (n ~=0)
         end
     end
 
-    FITNESS_VALUE=[FITNESS_VALUE,cost(1)];
+    FITNESS_VALUE = [FITNESS_VALUE,cost(1)];
     LOG_NUM_GENERATION = [LOG_NUM_GENERATION; n];
 
     %% Selection
@@ -76,7 +76,7 @@ while (n ~=0)
 
     %% New Generation
     for Q = (Num_indiv/2+1):length(new_Population(:,1))
-        Costx=Cost_function(num_elemets_x,num_elemets_y,new_Population(Q,:),theta_desired);
+        Costx=Cost_function(num_elemets_x,num_elemets_y,new_Population(Q,:),theta_desired,leng_time,harmonic_level);
         cost(Q) = Costx;
     end
     for Q = 1:length(new_Population(:,1))-1
@@ -103,16 +103,18 @@ while (n ~=0)
     n = n+1;
 
     %% Covergence
-    if cost(1) <= 20
+    if cost(1) <= 5
         break,
     end
-    if n == 3000
+    if n == 1000
         break,
     end
 end
 % for i=1:Num_indiv
 %     writematrix(Population(i,:),['results/POP',num2str(i),'_',num2str(peakTarget),'deg','_.csv']);
 % end
+fileID = fopen('log.csv','w');
+fprintf(fileID,'F , cost , gen \n');
 writematrix(Population(1,:),'results/220926_spaceTimeSequence1.csv');
 writematrix(cost(1,:),'results/220926_spaceTimeSequence1.txt');
 %%Results
@@ -126,4 +128,3 @@ Matrix=Population(1,:);
 disp(Population(1,:));
 disp(['Best Cost:',num2str(cost(1))])
 toc();
-
